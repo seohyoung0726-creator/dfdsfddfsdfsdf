@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>나침반이 없는 밤에</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#252321;--paper:#eee7d9;--paper2:#e3dac8;--red:#a44d3f;--blue:#526b73;--line:#b9aa92}
+*{box-sizing:border-box}html,body{margin:0;background:#1b1a18;color:var(--ink);font-family:"Gowun Batang","Batang",serif}
+body{min-height:100vh;overflow:hidden}.book{position:relative;width:100vw;height:100vh;background:var(--paper);overflow:hidden}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.13;z-index:10;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.25'/%3E%3C/svg%3E")}
+.scene{position:absolute;inset:0;padding:clamp(28px,6vw,90px);display:none;overflow:auto}.scene.active{display:block;animation:in .7s ease both}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.scene:before{content:attr(data-no);position:absolute;top:24px;left:clamp(28px,6vw,90px);font:16px "Nanum Pen Script";color:var(--red)}
+h1,h2,p{margin:0}h1{font-size:clamp(42px,8vw,104px);line-height:1.1;font-weight:400}h2{font-size:clamp(28px,4vw,54px);font-weight:400;line-height:1.35}
+.eyebrow{letter-spacing:.18em;font-size:13px;color:var(--red);margin-bottom:20px}.copy{max-width:520px;line-height:2;font-size:clamp(16px,1.7vw,21px)}.hand{font-family:"Nanum Pen Script",cursive;font-size:clamp(25px,3vw,40px);color:var(--red)}
+.title{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;background:#151719;color:#e9dfca}.title:after{content:"";position:absolute;width:50vw;height:50vw;border:1px solid #777;border-radius:50%;right:-15vw;top:-15vw;box-shadow:0 0 0 35px #222,0 0 0 36px #777;opacity:.35}
+.stars{position:absolute;inset:0;background:radial-gradient(circle at 73% 25%,#eee 0 1px,transparent 2px),radial-gradient(circle at 82% 68%,#eee 0 1px,transparent 2px),radial-gradient(circle at 64% 60%,#eee 0 2px,transparent 3px);background-size:180px 140px,220px 190px,250px 210px;opacity:.6}
+.title .content{position:relative;z-index:1}.title h1{font-family:"Nanum Pen Script";color:#eee7d9}.title .sub{margin-top:22px;color:#a6a093;font-size:16px;letter-spacing:.12em}
+.room{display:grid;grid-template-columns:1fr 1fr;gap:8vw;align-items:center}.window{height:min(60vh,520px);border:10px solid var(--ink);background:linear-gradient(150deg,#34434b,#172126);position:relative;box-shadow:20px 20px 0 var(--paper2)}.window:after{content:"";position:absolute;left:50%;top:0;height:100%;border-left:3px solid var(--ink)}.window:before{content:"";position:absolute;top:45%;left:0;width:100%;border-top:3px solid var(--ink)}
+.search{margin:50px auto 0;max-width:900px}.searchbar{height:56px;border:1px solid var(--ink);display:flex;align-items:center;padding:0 18px;background:#f6f2e8;font-family:monospace}.cursor{animation:blink 1s infinite}@keyframes blink{50%{opacity:0}}
+.tabs{display:flex;gap:4px;overflow:hidden;margin-top:18px;flex-wrap:wrap}.tab{padding:9px 14px;background:#d4c9b7;font-size:12px;white-space:nowrap}.tab:nth-child(3n){background:#c3d0cc}.result{margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:7vw}.result ul{padding:0;list-style:none;line-height:2.3;border-left:2px solid var(--red);padding-left:22px}.result li{border-bottom:1px dashed var(--line)}
+.document{margin:35px auto;max-width:720px;padding:40px 50px;background:#f8f4e9;box-shadow:12px 16px 0 #cfc4b1;transform:rotate(-1deg);line-height:2}.document .red{color:var(--red);border-bottom:1px solid var(--red)}
+.maze{position:relative;max-width:700px;height:330px;border:1px solid var(--line);margin:40px auto;background:repeating-linear-gradient(0deg,transparent 0 45px,#c5b9a4 46px 47px),repeating-linear-gradient(90deg,transparent 0 75px,#c5b9a4 76px 77px)}.maze span{position:absolute;padding:6px 10px;background:var(--paper);border:1px solid var(--red);font-size:13px}.maze span:nth-child(1){left:5%;top:14%}.maze span:nth-child(2){left:38%;top:55%}.maze span:nth-child(3){right:7%;top:22%}.maze span:nth-child(4){right:20%;bottom:12%}
+.files{display:flex;justify-content:center;align-items:flex-end;gap:10px;height:300px;margin-top:40px;flex-wrap:wrap}.file{width:110px;height:180px;padding:16px 10px;background:#e8d9b9;border:1px solid #a99572;transform:rotate(-8deg);font-size:12px}.file:nth-child(2){height:220px;background:#d8e0da;transform:rotate(6deg)}.file:nth-child(3){height:145px;background:#dfc4b9;transform:rotate(13deg)}.file:nth-child(4){height:260px;background:#ece5cf;transform:rotate(-3deg)}
+.program{max-width:900px;margin:35px auto;background:#202526;color:#b8d0c5;padding:25px;border:5px solid #4f5955;font-family:monospace;box-shadow:10px 10px #c8bba7}.program .bar{display:flex;justify-content:space-between;color:#dacb9b;margin-bottom:20px}.program pre{white-space:pre-wrap;line-height:1.8}.typed{color:#f2d28b}.arrow{display:block;margin:28px auto;width:min(600px,90%);height:120px}.arrow path{fill:none;stroke:var(--red);stroke-width:3;stroke-dasharray:800;stroke-dashoffset:800;animation:draw 1.7s .3s forwards}@keyframes draw{to{stroke-dashoffset:0}}
+.stack{position:absolute;right:12%;bottom:10%;width:170px;height:200px;border:1px solid var(--line);transform:rotate(7deg);background:#f6f0df;box-shadow:-14px -12px 0 #d8cbb6,-28px -23px 0 #eee5d5}.stack:after{content:"수행평가 / 시험지";position:absolute;inset:28px 12px;color:#7d7365;font-size:13px}
+.empty{height:290px;width:240px;border-bottom:2px solid var(--ink);margin:30px 10vw;position:relative}.empty:before{content:"";position:absolute;width:100px;height:160px;border:2px solid var(--ink);border-bottom:0;left:70px;bottom:0;border-radius:50% 50% 0 0}.empty:after{content:"재현";position:absolute;bottom:18px;left:94px;color:var(--red)}
+.night{background:#d8d3c6}.night .program{opacity:.72;transform:scale(.7);transform-origin:top left}
+.scales{display:flex;justify-content:center;gap:clamp(12px,5vw,70px);margin-top:55px;flex-wrap:wrap}.scale{width:190px;text-align:center}.beam{height:8px;background:var(--ink);position:relative;margin:52px auto 15px;transform:rotate(var(--tilt));transition:transform 1.5s}.beam:before,.beam:after{content:"";position:absolute;top:7px;width:62px;height:48px;border:2px solid var(--ink);border-top:0;border-radius:0 0 50% 50%}.beam:before{left:0}.beam:after{right:0}.pivot{width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:32px solid var(--red);margin:auto}.scale:nth-child(1){--tilt:-8deg}.scale:nth-child(2){--tilt:2deg}.scale:nth-child(3){--tilt:10deg}
+.choice{display:flex;gap:15px;margin-top:35px;flex-wrap:wrap}.choice button,.controls button{border:1px solid var(--ink);background:transparent;padding:10px 16px;font:inherit;cursor:pointer}.choice button:hover,.controls button:hover{background:var(--ink);color:var(--paper)}
+.end{text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center}.notebook{width:210px;height:150px;border:2px solid var(--ink);border-radius:4px;transform:rotate(-7deg);margin:40px;background:var(--blue);box-shadow:8px 8px 0 var(--ink)}
+.controls{position:fixed;z-index:20;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;background:rgba(238,231,217,.88);padding:7px 10px;border:1px solid var(--line)}.controls button{padding:6px 11px;font-size:14px}.progress{width:120px;height:2px;background:#c0b5a1}.progress i{display:block;height:100%;background:var(--red);width:0;transition:width .4s}.count{font-size:12px;color:#736a5e;min-width:45px;text-align:center}
+@media(max-width:700px){.scene{padding:55px 25px 90px}.room,.result{grid-template-columns:1fr;gap:25px}.window{height:260px}.stack{opacity:.4;right:4%}.copy{line-height:1.8}.controls{width:calc(100% - 30px);justify-content:center}.progress{flex:1}}
+</style>
+</head>
+<body>
+<main class="book" id="book">
+<div class="grain"></div>
+
+<section class="scene title active" data-no="프롤로그"><div class="stars"></div><div class="content"><div class="eyebrow">지훈의 3년 · 중3에서 고3까지</div><h1>나침반이<br>없는 밤에</h1><p class="sub">흩어진 정보와 서로 다른 저울 사이에서, 로봇공학자를 꿈꾸는 한 학생의 기록</p></div></section>
+
+<section class="scene" data-no="01"><div class="room"><div><div class="eyebrow">01 · 문이 닫힌 뒤</div><h2>방 안에는<br>화면 하나가 켜져 있었다.</h2><p class="copy">로봇공학자가 되고 싶었다. 그러려면 고등학교를 어디로 가야 하는지, 그것만 알면 됐다. 그런데 그 간단한 질문에 대한 답이 인터넷 어디에도 한 곳에 정리되어 있지 않았다.</p></div><div class="window"></div></div></section>
+
+<section class="scene" data-no="02"><div class="eyebrow">02 · 검색</div><h2>탭이 하나씩 늘어났다.</h2><div class="search"><div class="searchbar"><span id="query"></span><span class="cursor">▋</span></div><div class="tabs" id="tabs"></div><div class="result"><p class="copy">어떤 글은 3년 전 정보였고, 어떤 댓글은 서로 정반대 얘기를 하고 있었다. 어느 학교가 로봇공학 관련 과목을 실제로 개설하는지조차, 사이트마다 말이 달랐다.</p><ul><li>2027학년도 고교학점제 안내</li><li>○○고 vs △△고 이과 계열 비교</li><li>선택과목 뭐부터 들어야 하나요</li><li>댓글 47개 · 서로 다른 답</li></ul></div></div></section>
+
+<section class="scene" data-no="03"><div class="document"><div class="eyebrow">03 · 세 명의 선생님</div><h2>“선생님, 어디로 가야 할까요?”</h2><p style="margin-top:25px">담임은 NEIS를 보라고 했다. 과학 선생님은 학교알리미가 더 정확하다고 했다. 진로진학상담 선생님은 학교 홈페이지 공지사항이 제일 빠르다고 했다.</p><p class="red" style="margin-top:20px">NEIS 교육과정 편성표<br>학교알리미 공시자료<br>학교 홈페이지 입학설명회 자료</p><p style="margin-top:20px">세 사람 모두 틀린 말은 하지 않았다. 그저 세 개의 문이 다 다른 방으로 이어졌을 뿐이었다.</p></div></section>
+
+<section class="scene" data-no="04"><div class="eyebrow">04 · 미로</div><h2>NEIS에 들어가자<br>메뉴가 너무 많았다.</h2><div class="maze"><span>공시항목</span><span>교육과정 편성표</span><span>학교기본정보</span><span>학사일정</span></div></section>
+
+<section class="scene" data-no="05"><div class="eyebrow">05 · 제각각</div><h2>학교알리미의 자료는<br>서로 다른 표정을 하고 있었다.</h2><div class="files"><div class="file">A고_교육과정<br><br>표 형식<br>선택과목 명시</div><div class="file">B고_공시자료<br><br>PDF 통짜<br>찾기 어려움</div><div class="file">C고<br><br>자료 없음</div><div class="file">D고_편성표<br><br>xlsx<br>형식 다름</div></div></section>
+
+<section class="scene" data-no="06"><div class="eyebrow">06 · 발견</div><h2>그러다 링크 하나를<br>오래 바라보았다.</h2><p class="copy" style="margin-top:30px">진로를 입력하면 관련 과목과, 그 과목을 실제로 개설하는 고등학교까지 한 번에 보여준다고 했다. 화려하지 않은 페이지였지만, 밑에는 이런 버튼이 있었다.</p><p class="hand" style="margin-top:40px">“왜 이렇게 추천됐나요?”</p></section>
+
+<section class="scene" data-no="07"><div class="eyebrow">07 · COMPASS</div><h2>이름을 입력하면,<br>길이 그려졌다.</h2><div class="program"><div class="bar"><span>COMPASS / beta</span><span>● ● ●</span></div><pre>희망 진로 &gt; <span id="typedInput" class="typed"></span>
+
+분석 중... <span id="dots">...</span>
+
+추천 선택과목
+├─ 물리학              <span class="typed">94</span>
+├─ 미적분              <span class="typed">91</span>
+└─ 정보                <span class="typed">84</span>
+
+우리 지역 개설 고등학교
+A고 — 89 (물리학·정보 개설)</pre></div></section>
+
+<section class="scene" data-no="08"><div class="eyebrow">08 · 설명</div><h2>숫자 뒤에 있던<br>화살표를 따라갔다.</h2><svg class="arrow" viewBox="0 0 600 120" aria-label="로봇공학자에서 물리학으로 이어지는 화살표"><path d="M10 90 C150 10 260 110 390 50 S500 20 575 62 M540 37 L580 62 L540 82"/></svg><p class="copy">94라는 숫자는 정답이 아니라, 로봇공학에서 기계공학, 물리학을 거쳐 지금 이 과목까지 이어지는 연결고리의 흔적이었다. 여기저기 흩어져 서로 다른 말을 하던 정보들이, 처음으로 하나의 그림 안에 모였다.</p></section>
+
+<section class="scene" data-no="09"><div class="eyebrow">09 · 입학 이후</div><h2>시간은 서류처럼<br>차곡차곡 쌓였다.</h2><div class="stack"></div><p class="copy">3월부터 수행평가가 밀렸다. 물리 실험 보고서, 수학 서술형, 정보 코딩 과제. 중간고사 범위가 나오자마자 기말고사 공지가 붙었다. 프로그램은 조용해졌고, 화면은 오래 닫혀 있었다.</p></section>
+
+<section class="scene" data-no="10"><div class="eyebrow">10 · 빈 자리</div><h2>재현의 자리는<br>비어 있었다.</h2><div class="empty"></div><p class="copy">“나 자퇴하고 검정고시 볼까 봐.” 급식 먹다가 무심하게 했던 말이었다. 두 달 뒤, 재현은 진짜로 자퇴했다.</p></section>
+
+<section class="scene" data-no="11"><div class="eyebrow">11 · 소문과 계산</div><h2>사람들은 다시<br>숫자를 계산하기 시작했다.</h2><p class="copy">재현이 수능 최저만 맞춰서 원하던 대학에 붙었다는 소문이 돌았다. 내신도, 수행평가도, 생기부도 없이. 지훈은 자기가 수행평가와 동아리, 탐구활동에 쓰는 시간을 다시 계산해봤다.</p><p class="hand" style="margin-top:45px">안전한 길과<br>나에게 맞는 길은<br>같은 방향일까?</p></section>
+
+<section class="scene night" data-no="12"><div class="eyebrow">12 · 다시, 밤</div><h2>별생각 없이<br>그 화면을 다시 열었다.</h2><div class="program"><div class="bar"><span>COMPASS / beta</span><span>REVISIT</span></div><pre>로봇공학자
+   ↓
+기계공학 / 전자공학
+   ↓
+물리 · 수학 · 정보
+
+94   91</pre></div><p class="copy">예전과 비슷한 그림이었다. 로봇공학에서 시작해 지금 쓰고 있는 그 실험 보고서 과목까지 이어지는 가는 선. 몇 분 보다가, 노트북을 닫고 다시 보고서를 펼쳤다.</p></section>
+
+<section class="scene" data-no="13"><div class="eyebrow">13 · 세 개의 저울</div><h2>같은 성적표도<br>저울 위에서는 다르게 기울었다.</h2><div class="scales"><div class="scale"><div class="beam"></div><div class="pivot"></div><small>A대학교 — 내신 중심</small></div><div class="scale"><div class="beam"></div><div class="pivot"></div><small>B대학교 — 세특·비교과 중심</small></div><div class="scale"><div class="beam"></div><div class="pivot"></div><small>C대학교 — 정시 중심</small></div></div></section>
+
+<section class="scene" data-no="14"><div class="eyebrow">14 · 선택</div><h2>화면은 결론을 내리지 않았다.</h2><p class="copy">지훈이라는 사람도, 지훈의 성적표도 하나였다. 달라진 건 그걸 올려놓는 저울이었다. 정시 비중이 큰 저울이었으면 재현이 유리했을 거고, 세특·비교과가 큰 저울이었으면 지훈이 유리했다. 프로그램은 왜 이런 차이가 나는지만 보여줬다.</p><div class="choice"><button onclick="this.textContent='B대 중심으로 정했다'">B대를 중심에 둔다</button><button onclick="this.textContent='A대는 안정권으로'">A대는 함께 준비한다</button></div></section>
+
+<section class="scene end" data-no="에필로그"><div class="eyebrow">에필로그</div><h2>원서 접수를 마친 밤,<br>노트북을 닫았다.</h2><div class="notebook"></div><p class="hand">어느 대학에 붙을지는 몰라도<br>왜 여기까지 왔는지는, 알고 있었다.</p></section>
+
+<nav class="controls" aria-label="장면 조작"><button id="prev" title="이전 장면">←</button><button id="play" title="자동재생">▶</button><button id="next" title="다음 장면">→</button><span class="progress"><i id="progress"></i></span><span class="count" id="count">1 / 15</span><button id="restart" title="처음부터">↺</button></nav>
+</main>
+<script>
+const scenes=[...document.querySelectorAll(".scene")], progress=document.querySelector("#progress"),count=document.querySelector("#count"),play=document.querySelector("#play");
+let current=0,timer=null;
+function show(n){current=(n+scenes.length)%scenes.length;scenes.forEach((s,i)=>s.classList.toggle("active",i===current));progress.style.width=((current+1)/scenes.length*100)+"%";count.textContent=`${current+1} / ${scenes.length}`;if(current===2) typeSearch();if(current===7) typeProgram();}
+function next(){show(current+1)}function prev(){show(current-1)}
+function toggle(){if(timer){clearInterval(timer);timer=null;play.textContent="▶"}else{timer=setInterval(next,6500);play.textContent="Ⅱ"}}
+function typeSearch(){const q="로봇공학자 고등학교 선택과목";let i=0;const el=document.querySelector("#query");el.textContent="";clearInterval(window.qTimer);window.qTimer=setInterval(()=>{el.textContent=q.slice(0,++i);if(i>=q.length){clearInterval(window.qTimer);document.querySelector("#tabs").innerHTML=["NEIS","학교알리미","고교학점제","이과 비교","선택과목","커뮤니티"].map(x=>`<span class="tab">${x}</span>`).join("")}},90)}
+function typeProgram(){const el=document.querySelector("#typedInput");if(!el)return;let i=0,q="로봇공학자";el.textContent="";clearInterval(window.pTimer);window.pTimer=setInterval(()=>{el.textContent=q.slice(0,++i);if(i>=q.length)clearInterval(window.pTimer)},110)}
+document.querySelector("#next").onclick=next;document.querySelector("#prev").onclick=prev;document.querySelector("#restart").onclick=()=>show(0);play.onclick=toggle;
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight"||e.key===" ")next();if(e.key==="ArrowLeft")prev();if(e.key==="p")toggle()});
+show(0);
+</script>
+</body>
+</html>
